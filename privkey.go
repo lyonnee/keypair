@@ -1,4 +1,4 @@
-package wallet
+package keypair
 
 import (
 	"crypto/ed25519"
@@ -22,10 +22,6 @@ func (pk PrivateKey) GetPubKey() PublicKey {
 	return pubKey
 }
 
-func (pk PrivateKey) Address() string {
-	return pk.GetPubKey().Address()
-}
-
 func (pk PrivateKey) NewChildKey(index uint32) PrivateKey {
 	rootPrvKey := bip32.NewRootXPrv(pk[:])
 	newXPrv := rootPrvKey.Derive(index)
@@ -47,7 +43,7 @@ func (pk PrivateKey) SignMsg(msg []byte) []byte {
 	return ed25519.Sign(pk.ToEd25519PrivKey(), msg)
 }
 
-func (pk PrivateKey) Hex() string {
+func (pk PrivateKey) HexString() string {
 	return hex.EncodeToString(pk[:])
 }
 

@@ -1,4 +1,4 @@
-package wallet
+package keypair
 
 import (
 	"bytes"
@@ -38,7 +38,7 @@ const (
 	scryptDKLen = 32
 )
 
-func EncryptData(privKey, password []byte, scryptN, scryptP int) (CryptoJson, error) {
+func EncryptData(data, password []byte, scryptN, scryptP int) (CryptoJson, error) {
 	// 生成加密盐
 	salt := make([]byte, 32)
 	if _, err := io.ReadFull(rand.Reader, salt); err != nil {
@@ -57,7 +57,7 @@ func EncryptData(privKey, password []byte, scryptN, scryptP int) (CryptoJson, er
 	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
 		panic("reading from crypto/rand failed: " + err.Error())
 	}
-	cipherText, err := aesCTRXOR(encryptKey, privKey, iv)
+	cipherText, err := aesCTRXOR(encryptKey, data, iv)
 	if err != nil {
 		return CryptoJson{}, err
 	}

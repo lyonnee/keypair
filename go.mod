@@ -1,4 +1,4 @@
-module github.com/lyonnee/wallet
+module github.com/lyonnee/keypair
 
 go 1.20
 

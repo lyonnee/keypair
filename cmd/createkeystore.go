@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/lyonnee/wallet"
+	"github.com/lyonnee/keypair"
 	"github.com/urfave/cli/v2"
 )
 
@@ -59,14 +59,14 @@ var (
 )
 
 func createKeystoreAction(ctx *cli.Context) error {
-	privKey := wallet.NewPrivateKey(nil)
-	filepath, err := wallet.NewKeystore(privKey, password, datadir, useLightweightKDF)
+	privKey := keypair.NewPrivateKey(nil)
+	filepath, err := keypair.NewKeystore(privKey, password, datadir, useLightweightKDF)
 	if err != nil {
 		return err
 	}
 
 	fmt.Printf("\nYour new key was generated\n\n")
-	fmt.Printf("Public address of the key:   %s\n", privKey.Address())
+	fmt.Printf("Public key hex string:   %s\n", privKey.GetPubKey().HexString())
 	fmt.Printf("Keystore has saved to:   %s\n", filepath)
 	fmt.Printf("- You can share your public address with anyone. Others need it to interact with you.\n")
 	fmt.Printf("- You must BACKUP your key file! Without the key, it's impossible to access account funds!\n")

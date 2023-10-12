@@ -1,4 +1,4 @@
-package wallet
+package keypair
 
 import (
 	"os"
@@ -9,7 +9,7 @@ import (
 
 func TestKeystore(t *testing.T) {
 	privKey := NewPrivateKey(nil)
-	t.Log(privKey.Address())
+	t.Log(privKey.GetPubKey().HexString())
 	datadir, _ := os.Getwd()
 
 	filepath, _ := NewKeystore(privKey, "123456", datadir, false)
@@ -24,5 +24,5 @@ func TestKeystore(t *testing.T) {
 
 	pk, err = ks.Unluck("123456")
 	assert.NoError(t, err)
-	t.Log(pk.Address())
+	t.Log(pk.HexString())
 }

@@ -1,4 +1,4 @@
-package wallet
+package keypair
 
 import (
 	"errors"
@@ -15,7 +15,7 @@ var (
 
 type Keystore struct {
 	filepath string
-	Address  string
+	PubKey   string
 	Crypto   CryptoJson `json:"crtpto"`
 }
 
@@ -77,8 +77,8 @@ func NewKeystore(privKey PrivateKey, password, datadir string, useLightweightKDF
 		return "", err
 	}
 
-	ks.Address = privKey.Address()
-	ks.filepath = filepath.Join(datadir, privKey.Address()+".wallet")
+	ks.PubKey = privKey.GetPubKey().HexString()
+	ks.filepath = filepath.Join(datadir, ks.PubKey+".wallet")
 	ks.Crypto = cryptoJson
 
 	if err := ks.Persistence(); err != nil {

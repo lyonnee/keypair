@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/lyonnee/wallet"
+	"github.com/lyonnee/keypair"
 	"github.com/urfave/cli/v2"
 )
 
@@ -17,11 +17,11 @@ var createKeypairCommand = &cli.Command{
 }
 
 func createKeypairAction(ctx *cli.Context) error {
-	privKey := wallet.NewPrivateKey(nil)
+	privKey := keypair.NewPrivateKey(nil)
 
 	fmt.Printf("\nYour new key was generated\n\n")
-	fmt.Printf("Public address of the key:   %s\n", privKey.Address())
-	fmt.Printf("Secret value of the key:   %s\n\n", privKey.Hex())
+	fmt.Printf("Public key hex string:   %s\n", privKey.GetPubKey().HexString())
+	fmt.Printf("Secret value hex string:   %s\n\n", privKey.HexString())
 	fmt.Printf("- You can share your public address with anyone. Others need it to interact with you.\n")
 	fmt.Printf("- You must NEVER share the secret key with anyone! The key controls access to your funds!\n")
 

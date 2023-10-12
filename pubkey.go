@@ -1,4 +1,4 @@
-package wallet
+package keypair
 
 import (
 	"crypto/ed25519"
@@ -22,15 +22,8 @@ func (pk PublicKey) NewChildKey(index uint32) PublicKey {
 	return newPubK
 }
 
-func (pk PublicKey) Hex() string {
+func (pk PublicKey) HexString() string {
 	return hex.EncodeToString(pk[:])
-}
-
-func (pk PublicKey) Address() string {
-	if GetAddrFunc == nil {
-		return pk.Hex()
-	}
-	return GetAddrFunc(pk[:])
 }
 
 func (pk PublicKey) VerifyMsg(orginMsg, signMsg []byte) bool {
