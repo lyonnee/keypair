@@ -2,7 +2,12 @@ module github.com/lyonnee/keypair
 
 go 1.20
 
-require github.com/urfave/cli/v2 v2.25.7
+require (
+	github.com/stretchr/testify v1.8.4
+	github.com/urfave/cli/v2 v2.25.7
+	golang.org/x/crypto v0.14.0
+	golang.org/x/text v0.13.0
+)
 
 require (
 	github.com/btcsuite/btcd/btcec/v2 v2.2.0 // indirect
@@ -13,13 +18,9 @@ require (
 	github.com/holiman/uint256 v1.2.3 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/stretchr/objx v0.5.0 // indirect
-	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	golang.org/x/arch v0.0.0-20210923205945-b76863e36670 // indirect
-	golang.org/x/crypto v0.14.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
-	golang.org/x/text v0.13.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
