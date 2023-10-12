@@ -28,6 +28,7 @@ func GenerateMnemonic(mnemonicQuantity int, mnemonicLang string) (string, error)
 	case 24:
 		strength = EntropyBits256
 	case 12:
+		fallthrough
 	default:
 		strength = EntropyBits128
 	}
@@ -37,6 +38,7 @@ func GenerateMnemonic(mnemonicQuantity int, mnemonicLang string) (string, error)
 	case "cn":
 		language = mnemonic.LanguageChineseSimplified
 	case "en":
+		fallthrough
 	default:
 		language = mnemonic.LanguageEnglish
 	}
