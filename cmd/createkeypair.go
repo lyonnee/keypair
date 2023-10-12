@@ -10,8 +10,8 @@ import (
 var createKeypairCommand = &cli.Command{
 	Action:      createKeypairAction,
 	Name:        "createkp",
-	Usage:       "Bootstrap and initialize a new genesis block",
-	ArgsUsage:   "<genesisPath>",
+	Usage:       "创建一个随机的密钥对",
+	ArgsUsage:   "",
 	Flags:       nil,
 	Description: ``,
 }
@@ -19,7 +19,7 @@ var createKeypairCommand = &cli.Command{
 func createKeypairAction(ctx *cli.Context) error {
 	privKey := keypair.NewPrivateKey(nil)
 
-	fmt.Printf("\nYour new key was generated\n\n")
+	fmt.Printf("\n======================== Your new key was generated========================\n\n")
 	fmt.Printf("Public key hex string:   %s\n", privKey.GetPubKey().HexString())
 	fmt.Printf("Secret value hex string:   %s\n\n", privKey.HexString())
 	fmt.Printf("- You can share your public address with anyone. Others need it to interact with you.\n")

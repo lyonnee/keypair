@@ -12,8 +12,8 @@ var (
 	createKeystoreCommand = &cli.Command{
 		Action:    createKeystoreAction,
 		Name:      "createks",
-		Usage:     "Bootstrap and initialize a new genesis block",
-		ArgsUsage: "<genesisPath>",
+		Usage:     "创建一组随机的非对称加密的密钥对, 设置密码, 可指定保存到地址",
+		ArgsUsage: "",
 		Flags: []cli.Flag{
 			passwordFlag,
 			datadirFlag,
@@ -27,6 +27,7 @@ var (
 		Name:        "datadir",
 		Value:       "",
 		DefaultText: "os.Getwd()",
+		Usage:       "directory for the keystore",
 		Aliases:     []string{"d"},
 		Destination: &datadir,
 		Action: func(ctx *cli.Context, s string) error {
@@ -41,8 +42,8 @@ var (
 	passwordFlag = &cli.StringFlag{
 		Name:        "password",
 		Value:       "",
-		DefaultText: "",
-		Aliases:     []string{"pwd"},
+		Usage:       "password for the keystore",
+		Aliases:     []string{"p"},
 		Destination: &password,
 		Action:      nil,
 	}
@@ -65,7 +66,7 @@ func createKeystoreAction(ctx *cli.Context) error {
 		return err
 	}
 
-	fmt.Printf("\nYour new key was generated\n\n")
+	fmt.Printf("\n======================== Your new key was generated========================\n\n")
 	fmt.Printf("Public key hex string:   %s\n", privKey.GetPubKey().HexString())
 	fmt.Printf("Keystore has saved to:   %s\n", filepath)
 	fmt.Printf("- You can share your public address with anyone. Others need it to interact with you.\n")

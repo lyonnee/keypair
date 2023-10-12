@@ -16,7 +16,7 @@ func main() {
 		Commands: []*cli.Command{
 			createKeypairCommand,
 			createKeystoreCommand,
-			createHdWalletCommond,
+			createMnemonicCommond,
 		},
 	}
 

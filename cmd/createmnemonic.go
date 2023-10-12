@@ -8,11 +8,11 @@ import (
 )
 
 var (
-	createHdWalletCommond = &cli.Command{
+	createMnemonicCommond = &cli.Command{
 		Action:    createHdWalletAction,
-		Name:      "createhw",
-		Usage:     "Bootstrap and initialize a new genesis block",
-		ArgsUsage: "<genesisPath>",
+		Name:      "createmm",
+		Usage:     "基于BIP39协议创建一组随机的助记词, 可指定生成密码, 可指定助记词数量, 可指定助记词语言",
+		ArgsUsage: "",
 		Flags: []cli.Flag{
 			mnemonicLangFlag,
 			mnemonicQuantityFlag,
@@ -26,6 +26,7 @@ var (
 		Name:        "mnemonicLang",
 		Value:       "cn",
 		Usage:       "language for the mnemonic",
+		Aliases:     []string{"l"},
 		Destination: &mnemonicLang,
 		Action:      nil,
 	}
@@ -35,7 +36,7 @@ var (
 		Name:        "mnemonicQuantity",
 		Value:       12,
 		Usage:       "quantity for the mnemonic",
-		Aliases:     []string{"mq"},
+		Aliases:     []string{"q"},
 		Destination: &mnemonicQuantity,
 		Action:      nil,
 	}
@@ -45,23 +46,24 @@ var (
 		Name:        "mnemonicPassword",
 		Value:       "",
 		DefaultText: "",
+		Aliases:     []string{"p"},
 		Destination: &mnemonicPassword,
 		Action:      nil,
 	}
 )
 
 func createHdWalletAction(ctx *cli.Context) error {
-	words, _ := keypair.GenerateMnemonic(mnemonicQuantity, mnemonicLang)
+	words, err := keypair.GenerateMnemonic(mnemonicQuantity, mnemonicLang)
+	if err != nil {
+		return err
+	}
 	seed := keypair.ToSeed(words, mnemonicPassword)
 
 	privKey := keypair.NewPrivateKey(seed)
 
-	fmt.Printf("\nYour new key was generated\n\n")
+	fmt.Printf("\n======================== Your new key was generated========================\n\n")
 	fmt.Printf("Mnemonic words is:   %s\n", words)
-	for i := uint32(0); i < 10; i++ {
-		newPrivkey := privKey.NewChildKey(i)
-		fmt.Printf("Child index %d, Public key hex string:   %s\n", i, newPrivkey.GetPubKey().HexString())
-	}
+	fmt.Printf("Public key hex string:   %s\n", privKey.GetPubKey().HexString())
 	fmt.Printf("- You can share your public address with anyone. Others need it to interact with you.\n")
 	fmt.Printf("- You must BACKUP your mnemonic words! Without the mnemonic words, it's impossible to access account funds!\n")
 	fmt.Printf("- You must REMEMBER your mnemonic words! Without the mnemonic words, it's impossible to decrypt the key!\n\n")
