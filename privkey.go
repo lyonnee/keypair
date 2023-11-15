@@ -53,20 +53,24 @@ func NewPrivateKey(seed []byte) PrivateKey {
 	}
 	edprivk := ed25519.NewKeyFromSeed(seed)
 
-	privKey, _ := LoadFromBytes(edprivk)
+	privKey, _ := bytesToPrivKey(edprivk)
 	return privKey
 }
 
-func LoadFromHex(s string) (PrivateKey, error) {
+func (pk PrivateKey) LoadFromHex(s string) (PrivateKey, error) {
 	d, err := hex.DecodeString(s)
 	if err != nil {
 		return PrivateKey{}, err
 	}
 
-	return LoadFromBytes(d)
+	return bytesToPrivKey(d)
 }
 
-func LoadFromBytes(d []byte) (PrivateKey, error) {
+func (pk PrivateKey) LoadFromBytes(d []byte) (PrivateKey, error) {
+	return bytesToPrivKey(d)
+}
+
+func bytesToPrivKey(d []byte) (PrivateKey, error) {
 	var privKey PrivateKey
 	copy(privKey[:], d)
 	return privKey, nil

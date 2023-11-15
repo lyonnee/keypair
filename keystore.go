@@ -40,7 +40,7 @@ func (ks *Keystore) Unluck(password string) (PrivateKey, error) {
 		return privKey, err
 	}
 
-	return LoadFromBytes(k)
+	return new(PrivateKey).LoadFromBytes(k)
 }
 
 func (ks Keystore) Filepath() string {

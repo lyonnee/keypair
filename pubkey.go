@@ -11,10 +11,8 @@ type PublicKey [PublicKeyLength]byte
 
 const PublicKeyLength int = ed25519.PublicKeySize
 
-var GetAddrFunc func([]byte) string
-
 func (pk PublicKey) NewChildKey(index uint32) PublicKey {
-	xPub := bip32.NewXPub(pk[:])
+	xPub := bip32.NewXPub(pk.Bytes())
 	newXPub := xPub.Derive(index)
 
 	var newPubK PublicKey
@@ -23,9 +21,23 @@ func (pk PublicKey) NewChildKey(index uint32) PublicKey {
 }
 
 func (pk PublicKey) HexString() string {
-	return hex.EncodeToString(pk[:])
+	return hex.EncodeToString(pk.Bytes())
 }
 
 func (pk PublicKey) VerifyMsg(orginMsg, signMsg []byte) bool {
 	return ed25519.Verify(pk[:], orginMsg, signMsg)
+}
+
+func (pk PublicKey) Bytes() []byte {
+	return pk[:]
+}
+
+func (pk PublicKey) LoadFromBytes(d []byte) (PublicKey, error) {
+	return bytesToPubKey(d)
+}
+
+func bytesToPubKey(d []byte) (PublicKey, error) {
+	var pubKey PublicKey
+	copy(pubKey[:], d)
+	return pubKey, nil
 }
