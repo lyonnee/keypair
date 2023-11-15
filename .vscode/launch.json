@@ -10,7 +10,28 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/cmd",
-            "args": ["createkp"],
+            "args": ["createks"],
+        },
+        {
+            "name": "Generate BTC Addr",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/examples/btc/main.go",
+        },
+        {
+            "name": "Generate HChain Addr",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/examples/hchain/main.go",
+        },
+        {
+            "name": "Generate ETH Addr",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/examples/eth/main.go",
         }
     ]
 }
