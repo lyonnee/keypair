@@ -70,6 +70,10 @@ func (pk PrivateKey) LoadFromBytes(d []byte) (PrivateKey, error) {
 	return bytesToPrivKey(d)
 }
 
+func (pk PrivateKey) GetAddr() string {
+	return pk.GetPubKey().GetAddr()
+}
+
 func bytesToPrivKey(d []byte) (PrivateKey, error) {
 	var privKey PrivateKey
 	copy(privKey[:], d)
