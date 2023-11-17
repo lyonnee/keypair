@@ -15,7 +15,7 @@ var (
 
 type Keystore struct {
 	filepath string
-	PubKey   string
+	Address  string
 	Crypto   CryptoJson `json:"crtpto"`
 }
 
@@ -77,8 +77,8 @@ func NewKeystore(privKey PrivateKey, password, datadir string, useLightweightKDF
 		return "", err
 	}
 
-	ks.PubKey = privKey.GetPubKey().HexString()
-	ks.filepath = filepath.Join(datadir, ks.PubKey+".wallet")
+	ks.Address = privKey.GetPubKey().Address()
+	ks.filepath = filepath.Join(datadir, ks.Address+".wallet")
 	ks.Crypto = cryptoJson
 
 	if err := ks.Persistence(); err != nil {

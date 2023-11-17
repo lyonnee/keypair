@@ -1,21 +1,40 @@
 package keypair
 
-type Addresser interface {
-	GetAddr(prefix []byte, pubk []byte) string
+import "errors"
+
+const Addr_Length = 44
+
+var prefix string = "Hcc"
+var Err_Invalid_Addr = errors.New("invalid address")
+
+func genAddress(pubk []byte) string {
+	return prefix + string(Base58Encode(pubk))
 }
 
-type GetAddrFunc func(prefix []byte, pubk []byte) string
+func IsValidAddr(addr string) bool {
+	if prefix != addr[:len(prefix)] {
+		return false
+	}
 
-func (fn GetAddrFunc) GetAddr(prefix []byte, pubk []byte) string {
-	return fn(prefix, pubk)
+	if len(addr[len(prefix):]) != Addr_Length {
+		return false
+	}
+
+	return true
 }
 
-type AddressChecker interface {
-	CheckAddress(addr string) bool
-}
+func AddrToPubKey(addr string) (PublicKey, error) {
+	var pubk PublicKey
+	if prefix != addr[:len(prefix)] {
+		return pubk, Err_Invalid_Addr
+	}
 
-type CheckAddressFunc func(addr string) bool
+	if len(addr[len(prefix):]) != Addr_Length {
+		return pubk, Err_Invalid_Addr
+	}
 
-func (fn CheckAddressFunc) CheckAddress(addr string) bool {
-	return fn(addr)
+	b := Base58Decode([]byte(addr))
+	copy(pubk[:], b)
+
+	return pubk, nil
 }

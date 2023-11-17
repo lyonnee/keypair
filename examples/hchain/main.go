@@ -4,12 +4,13 @@ import (
 	"fmt"
 
 	"github.com/lyonnee/keypair"
-	"github.com/lyonnee/keypair/addressgen"
 )
 
 func main() {
 	privk := keypair.NewPrivateKey(nil)
 	pubk := privk.GetPubKey()
-	addr := addressgen.GenHChainAddr(nil, pubk.Bytes())
+	addr := pubk.Address()
 	fmt.Println(addr)
+
+	fmt.Println("is valid addr: ", keypair.IsValidAddr(addr))
 }

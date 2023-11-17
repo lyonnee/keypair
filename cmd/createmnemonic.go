@@ -63,7 +63,7 @@ func createHdWalletAction(ctx *cli.Context) error {
 
 	fmt.Printf("\n======================== Your new key was generated========================\n\n")
 	fmt.Printf("Mnemonic words is:   %s\n", words)
-	fmt.Printf("Public key hex string:   %s\n", privKey.GetPubKey().HexString())
+	fmt.Printf("Public address string:   %s\n", privKey.GetPubKey().HexString())
 	fmt.Printf("- You can share your public address with anyone. Others need it to interact with you.\n")
 	fmt.Printf("- You must BACKUP your mnemonic words! Without the mnemonic words, it's impossible to access account funds!\n")
 	fmt.Printf("- You must REMEMBER your mnemonic words! Without the mnemonic words, it's impossible to decrypt the key!\n\n")

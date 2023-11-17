@@ -70,8 +70,8 @@ func (pk PrivateKey) LoadFromBytes(d []byte) (PrivateKey, error) {
 	return bytesToPrivKey(d)
 }
 
-func (pk PrivateKey) GetAddr() string {
-	return pk.GetPubKey().GetAddr()
+func (pk PrivateKey) Address() string {
+	return pk.GetPubKey().Address()
 }
 
 func bytesToPrivKey(d []byte) (PrivateKey, error) {

@@ -36,12 +36,8 @@ func (pk PublicKey) LoadFromBytes(d []byte) (PublicKey, error) {
 	return bytesToPubKey(d)
 }
 
-func (pk PublicKey) GetAddr() string {
-	if addresserGenerater == nil {
-		panic("address generate not set")
-	}
-
-	return addresserGenerater.GetAddr(nil, pk[:])
+func (pk PublicKey) Address() string {
+	return genAddress(pk.Bytes())
 }
 
 func bytesToPubKey(d []byte) (PublicKey, error) {
