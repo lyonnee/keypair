@@ -40,6 +40,10 @@ func (pk PublicKey) Address() string {
 	return genAddress(pk.Bytes())
 }
 
+func (pk PublicKey) ToCurve25519() ([]byte, error) {
+	return ed25519PubKeyToCurve25519(pk.Bytes())
+}
+
 func bytesToPubKey(d []byte) (PublicKey, error) {
 	var pubKey PublicKey
 	copy(pubKey[:], d)

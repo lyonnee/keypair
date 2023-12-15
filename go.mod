@@ -25,6 +25,7 @@ require (
 )
 
 require (
+	filippo.io/edwards25519 v1.1.0
 	github.com/bytedance/sonic v1.10.2
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
 	github.com/dongri/go-mnemonic v0.0.0-20180529164210-dc9bfc04a038

@@ -34,7 +34,7 @@ func (pk PrivateKey) NewChildKey(index uint32) PrivateKey {
 
 func (pk PrivateKey) ToEd25519PrivKey() ed25519.PrivateKey {
 	var edprivk = make([]byte, ed25519.PrivateKeySize)
-	copy(edprivk, pk[:])
+	copy(edprivk, pk.Bytes())
 
 	return edprivk
 }
@@ -44,7 +44,7 @@ func (pk PrivateKey) SignMsg(msg []byte) []byte {
 }
 
 func (pk PrivateKey) HexString() string {
-	return hex.EncodeToString(pk[:])
+	return hex.EncodeToString(pk.Bytes())
 }
 
 func NewPrivateKey(seed []byte) PrivateKey {
@@ -66,12 +66,23 @@ func (pk PrivateKey) LoadFromHex(s string) (PrivateKey, error) {
 	return bytesToPrivKey(d)
 }
 
+func (pk PrivateKey) Bytes() []byte {
+	return pk[:]
+}
+
 func (pk PrivateKey) LoadFromBytes(d []byte) (PrivateKey, error) {
 	return bytesToPrivKey(d)
 }
 
 func (pk PrivateKey) Address() string {
 	return pk.GetPubKey().Address()
+}
+
+func (pk PrivateKey) ToCurve25519() []byte {
+	return ed25519PrivKeyToCurve25519(pk.Bytes())
+}
+func (pk PrivateKey) SharedSecret(pub []byte, decrypt bool) ([]byte, error) {
+	return sharedSecret(pub, pk.Bytes(), true)
 }
 
 func bytesToPrivKey(d []byte) (PrivateKey, error) {
