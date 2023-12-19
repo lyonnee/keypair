@@ -21,7 +21,7 @@ func (kp Keypair) SharedSecret(pubKey PublicKey, decrypt bool) ([]byte, error) {
 	return sharedSecret(pubKey.Bytes(), kp.privKey.toCurve25519(), true)
 }
 
-func NewKeypair() Keypair {
+func New() Keypair {
 	newPk := NewPrivateKey(nil)
 	return Keypair{
 		privKey: newPk,

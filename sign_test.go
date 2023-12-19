@@ -7,7 +7,7 @@ import (
 )
 
 func TestSign(t *testing.T) {
-	kp := NewKeypair()
+	kp := New()
 
 	msg := []byte("ayiyayiayiyayiligedoligedo")
 	signMsg := kp.SignMsg(msg)

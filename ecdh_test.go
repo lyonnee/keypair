@@ -7,9 +7,9 @@ import (
 )
 
 func TestSharedSecret(t *testing.T) {
-	a := NewKeypair()
+	a := New()
 
-	b := NewKeypair()
+	b := New()
 
 	ass, err := a.SharedSecret(b.PublicKey(), true)
 	assert.NoError(t, err)
