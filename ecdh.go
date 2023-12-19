@@ -23,16 +23,18 @@ func ed25519PubKeyToCurve25519(pk []byte) ([]byte, error) {
 	return p.BytesMontgomery(), nil
 }
 
-func sharedSecret(pub, priv []byte, decrypt bool) ([]byte, error) {
-	pkPriv := ed25519.PrivateKey(priv)
-	xPriv := ed25519PrivKeyToCurve25519(pkPriv)
+func SharedSecret(pubKey, privKey []byte, decrypt bool) ([]byte, error) {
+	x25519PrivKey := ed25519PrivKeyToCurve25519(privKey)
+	return sharedSecret(pubKey, x25519PrivKey, decrypt)
+}
 
+func sharedSecret(pub []byte, xPrivKey []byte, decrypt bool) ([]byte, error) {
 	xPub, err := ed25519PubKeyToCurve25519(pub)
 	if err != nil {
 		return nil, err
 	}
 
-	secret, err := curve25519.X25519(xPriv, xPub)
+	secret, err := curve25519.X25519(xPrivKey, xPub)
 	if err != nil {
 		return nil, err
 	}

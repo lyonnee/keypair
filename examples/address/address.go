@@ -1,6 +1,10 @@
-package keypair
+package main
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/lyonnee/keypair"
+)
 
 const Addr_Length = 44
 
@@ -23,8 +27,8 @@ func IsValidAddr(addr string) bool {
 	return true
 }
 
-func AddrToPubKey(addr string) (PublicKey, error) {
-	var pubk PublicKey
+func AddrToPubKey(addr string) (keypair.PublicKey, error) {
+	var pubk keypair.PublicKey
 	if prefix != addr[:len(prefix)] {
 		return pubk, Err_Invalid_Addr
 	}

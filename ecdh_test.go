@@ -1,23 +1,20 @@
 package keypair
 
 import (
-	"encoding/hex"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestSharedSecret(t *testing.T) {
-	a := NewPrivateKey(nil)
-	t.Log(hex.EncodeToString(a.Bytes()))
+	a := NewKeypair()
 
-	b := NewPrivateKey(nil)
-	t.Log(hex.EncodeToString(b.Bytes()))
+	b := NewKeypair()
 
-	ass, err := a.SharedSecret(b.GetPubKey().Bytes(), true)
+	ass, err := a.SharedSecret(b.PublicKey(), true)
 	assert.NoError(t, err)
 
-	bss, err := b.SharedSecret(a.GetPubKey().Bytes(), true)
+	bss, err := b.SharedSecret(a.PublicKey(), true)
 	assert.NoError(t, err)
 
 	assert.Equal(t, ass, bss)

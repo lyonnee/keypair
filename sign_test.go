@@ -7,14 +7,11 @@ import (
 )
 
 func TestSign(t *testing.T) {
-	privK := NewPrivateKey(nil)
-	signer := Signer{
-		privK,
-	}
+	kp := NewKeypair()
 
 	msg := []byte("ayiyayiayiyayiligedoligedo")
-	signMsg := signer.SignMsg(msg)
-	res := VerifyMsg(privK.GetPubKey(), msg, signMsg)
+	signMsg := kp.SignMsg(msg)
+	res := VerifyMsg(kp.PublicKey(), msg, signMsg)
 	assert.True(t, res)
 
 	privK2 := NewPrivateKey(nil)

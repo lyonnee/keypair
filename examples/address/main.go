@@ -9,8 +9,8 @@ import (
 func main() {
 	privk := keypair.NewPrivateKey(nil)
 	pubk := privk.GetPubKey()
-	addr := pubk.Address()
+	addr := genAddress(pubk.Bytes())
 	fmt.Println(addr)
 
-	fmt.Println("is valid addr: ", keypair.IsValidAddr(addr))
+	fmt.Println("is valid addr: ", IsValidAddr(addr))
 }

@@ -24,28 +24,22 @@ func (pk PublicKey) HexString() string {
 	return hex.EncodeToString(pk.Bytes())
 }
 
-func (pk PublicKey) VerifyMsg(orginMsg, signMsg []byte) bool {
-	return ed25519.Verify(pk[:], orginMsg, signMsg)
+func (pk PublicKey) VerifyMsg(originMsg, signMsg []byte) bool {
+	return ed25519.Verify(pk[:], originMsg, signMsg)
 }
 
 func (pk PublicKey) Bytes() []byte {
 	return pk[:]
 }
 
-func (pk PublicKey) LoadFromBytes(d []byte) (PublicKey, error) {
-	return bytesToPubKey(d)
+func (pk *PublicKey) LoadFromBytes(d []byte) error {
+	var err error
+	pk, err = bytesToPubKey(d)
+	return err
 }
 
-func (pk PublicKey) Address() string {
-	return genAddress(pk.Bytes())
-}
-
-func (pk PublicKey) ToCurve25519() ([]byte, error) {
-	return ed25519PubKeyToCurve25519(pk.Bytes())
-}
-
-func bytesToPubKey(d []byte) (PublicKey, error) {
+func bytesToPubKey(d []byte) (*PublicKey, error) {
 	var pubKey PublicKey
 	copy(pubKey[:], d)
-	return pubKey, nil
+	return &pubKey, nil
 }

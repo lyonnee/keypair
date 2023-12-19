@@ -20,7 +20,7 @@ func createKeypairAction(ctx *cli.Context) error {
 	privKey := keypair.NewPrivateKey(nil)
 
 	fmt.Printf("\n======================== Your new keypair was generated========================\n\n")
-	fmt.Printf("Public address string:   %s\n", privKey.GetPubKey().Address())
+	fmt.Printf("Public key string:   %s\n", privKey.GetPubKey().HexString())
 	fmt.Printf("Secret value hex string:   %s\n\n", privKey.HexString())
 	fmt.Printf("- You can share your public address with anyone. Others need it to interact with you.\n")
 	fmt.Printf("- You must NEVER share the secret key with anyone! The key controls access to your funds!\n")

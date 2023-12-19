@@ -15,7 +15,7 @@ var (
 
 type Keystore struct {
 	filepath string
-	Address  string
+	PubKey   string
 	Crypto   CryptoJson `json:"crtpto"`
 }
 
@@ -32,15 +32,16 @@ type cipherparamsJSON struct {
 	IV string `json:"iv"`
 }
 
-func (ks *Keystore) Unluck(password string) (PrivateKey, error) {
-	var privKey PrivateKey
+func (ks *Keystore) Unlock(password string) (Keypair, error) {
+	var kp Keypair
 
 	k, err := DecryptData(ks.Crypto, password)
 	if err != nil {
-		return privKey, err
+		return kp, err
 	}
 
-	return new(PrivateKey).LoadFromBytes(k)
+	kp = LoadFromPrivKeyBytes(k)
+	return kp, nil
 }
 
 func (ks Keystore) Filepath() string {
@@ -77,8 +78,8 @@ func NewKeystore(privKey PrivateKey, password, datadir string, useLightweightKDF
 		return "", err
 	}
 
-	ks.Address = privKey.GetPubKey().Address()
-	ks.filepath = filepath.Join(datadir, ks.Address+".wallet")
+	ks.PubKey = privKey.GetPubKey().HexString()
+	ks.filepath = filepath.Join(datadir, ks.PubKey+".wallet")
 	ks.Crypto = cryptoJson
 
 	if err := ks.Persistence(); err != nil {

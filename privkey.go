@@ -3,9 +3,11 @@ package keypair
 import (
 	"crypto/ed25519"
 	"crypto/rand"
+	"crypto/sha512"
 	"encoding/hex"
 
 	"github.com/islishude/bip32"
+	"golang.org/x/crypto/curve25519"
 )
 
 const PrivateKeyLength int = ed25519.PrivateKeySize
@@ -13,11 +15,11 @@ const PrivateKeyLength int = ed25519.PrivateKeySize
 type PrivateKey [PrivateKeyLength]byte
 
 func (pk PrivateKey) GetPubKey() PublicKey {
-	edprivk := pk.ToEd25519PrivKey()
+	edPrivKey := pk.ToEd25519PrivKey()
 
-	edpubk := edprivk.Public()
+	edPubKey := edPrivKey.Public()
 	var pubKey PublicKey
-	copy(pubKey[:], edpubk.(ed25519.PublicKey))
+	copy(pubKey[:], edPubKey.(ed25519.PublicKey))
 
 	return pubKey
 }
@@ -26,17 +28,17 @@ func (pk PrivateKey) NewChildKey(index uint32) PrivateKey {
 	rootPrvKey := bip32.NewRootXPrv(pk[:])
 	newXPrv := rootPrvKey.Derive(index)
 
-	var newPrivkey PrivateKey
-	copy(newPrivkey[:], newXPrv.Bytes())
+	var newPrivKey PrivateKey
+	copy(newPrivKey[:], newXPrv.Bytes())
 
-	return newPrivkey
+	return newPrivKey
 }
 
 func (pk PrivateKey) ToEd25519PrivKey() ed25519.PrivateKey {
-	var edprivk = make([]byte, ed25519.PrivateKeySize)
-	copy(edprivk, pk.Bytes())
+	var edPrivKey = make([]byte, ed25519.PrivateKeySize)
+	copy(edPrivKey, pk.Bytes())
 
-	return edprivk
+	return edPrivKey
 }
 
 func (pk PrivateKey) SignMsg(msg []byte) []byte {
@@ -51,38 +53,40 @@ func NewPrivateKey(seed []byte) PrivateKey {
 	if seed == nil {
 		seed = randSeed()
 	}
-	edprivk := ed25519.NewKeyFromSeed(seed)
+	edPrivKey := ed25519.NewKeyFromSeed(seed)
 
-	privKey, _ := bytesToPrivKey(edprivk)
+	privKey, _ := bytesToPrivKey(edPrivKey)
 	return privKey
 }
 
-func (pk PrivateKey) LoadFromHex(s string) (PrivateKey, error) {
+func (pk *PrivateKey) LoadFromHex(s string) error {
 	d, err := hex.DecodeString(s)
 	if err != nil {
-		return PrivateKey{}, err
+		return err
 	}
 
-	return bytesToPrivKey(d)
+	return pk.LoadFromBytes(d)
 }
 
-func (pk PrivateKey) Bytes() []byte {
+func (pk *PrivateKey) Bytes() []byte {
 	return pk[:]
 }
 
-func (pk PrivateKey) LoadFromBytes(d []byte) (PrivateKey, error) {
-	return bytesToPrivKey(d)
+func (pk *PrivateKey) LoadFromBytes(d []byte) error {
+	btp, err := bytesToPrivKey(d)
+	if err != nil {
+		return err
+	}
+
+	pk = &btp
+	return nil
 }
 
-func (pk PrivateKey) Address() string {
-	return pk.GetPubKey().Address()
-}
-
-func (pk PrivateKey) ToCurve25519() []byte {
-	return ed25519PrivKeyToCurve25519(pk.Bytes())
-}
-func (pk PrivateKey) SharedSecret(pub []byte, decrypt bool) ([]byte, error) {
-	return sharedSecret(pub, pk.Bytes(), true)
+func (pk *PrivateKey) toCurve25519() []byte {
+	h := sha512.New()
+	h.Write(pk.ToEd25519PrivKey().Seed())
+	out := h.Sum(nil)
+	return out[:curve25519.ScalarSize]
 }
 
 func bytesToPrivKey(d []byte) (PrivateKey, error) {

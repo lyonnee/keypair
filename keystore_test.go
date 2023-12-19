@@ -19,10 +19,10 @@ func TestKeystore(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	pk, err := ks.Unluck("1234")
+	pk, err := ks.Unlock("1234")
 	assert.Error(t, err)
 
-	pk, err = ks.Unluck("123456")
+	pk, err = ks.Unlock("123456")
 	assert.NoError(t, err)
-	t.Log(pk.HexString())
+	t.Log(pk.pubKey.HexString())
 }
