@@ -9,9 +9,9 @@ import (
 )
 
 var (
-	createKeystoreCommand = &cli.Command{
-		Action:    createKeystoreAction,
-		Name:      "createks",
+	asKeystoreCommand = &cli.Command{
+		Action:    asKeystoreAction,
+		Name:      "keystore",
 		Usage:     "创建一组随机的非对称加密的密钥对, 设置密码, 可指定保存到地址",
 		ArgsUsage: "",
 		Flags: []cli.Flag{
@@ -59,7 +59,7 @@ var (
 	}
 )
 
-func createKeystoreAction(ctx *cli.Context) error {
+func asKeystoreAction(ctx *cli.Context) error {
 	kp := keypair.New(nil)
 	filepath, err := kp.SaveAsKeystore(password, datadir, useLightweightKDF)
 	if err != nil {

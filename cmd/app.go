@@ -14,10 +14,11 @@ func main() {
 			return nil
 		},
 		Commands: []*cli.Command{
-			createKeypairCommand,
-			createKeystoreCommand,
-			createMnemonicCommond,
+			createCommand,
+			asKeystoreCommand,
+			asMnemonicCommand,
 		},
+		DefaultCommand: "create",
 	}
 
 	if err := app.Run(os.Args); err != nil {

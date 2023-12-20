@@ -7,16 +7,16 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var createKeypairCommand = &cli.Command{
-	Action:      createKeypairAction,
-	Name:        "createkp",
+var createCommand = &cli.Command{
+	Action:      createAction,
+	Name:        "create",
 	Usage:       "创建一个随机的密钥对",
 	ArgsUsage:   "",
 	Flags:       nil,
 	Description: ``,
 }
 
-func createKeypairAction(ctx *cli.Context) error {
+func createAction(ctx *cli.Context) error {
 	kp := keypair.New(nil)
 
 	fmt.Printf("\n======================== Your new keypair was generated========================\n\n")

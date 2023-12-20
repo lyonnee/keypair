@@ -8,9 +8,9 @@ import (
 )
 
 var (
-	createMnemonicCommond = &cli.Command{
-		Action:    createHdWalletAction,
-		Name:      "createmm",
+	asMnemonicCommand = &cli.Command{
+		Action:    asMnemonicAction,
+		Name:      "mnemonic",
 		Usage:     "基于BIP39协议创建一组随机的助记词, 可指定生成密码, 可指定助记词数量, 可指定助记词语言",
 		ArgsUsage: "",
 		Flags: []cli.Flag{
@@ -52,7 +52,7 @@ var (
 	}
 )
 
-func createHdWalletAction(ctx *cli.Context) error {
+func asMnemonicAction(ctx *cli.Context) error {
 	words, err := keypair.GenerateMnemonic(mnemonicQuantity, mnemonicLang)
 	if err != nil {
 		return err
