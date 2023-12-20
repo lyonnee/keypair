@@ -57,10 +57,6 @@ func (pk *PrivateKey) LoadFromHex(s string) error {
 	return pk.LoadFromBytes(d)
 }
 
-func (pk *PrivateKey) Bytes() []byte {
-	return pk[:]
-}
-
 func (pk *PrivateKey) LoadFromBytes(d []byte) error {
 	btp, err := bytesToPrivKey(d)
 	if err != nil {
@@ -71,7 +67,11 @@ func (pk *PrivateKey) LoadFromBytes(d []byte) error {
 	return nil
 }
 
-func (pk *PrivateKey) toCurve25519() []byte {
+func (pk PrivateKey) Bytes() []byte {
+	return pk[:]
+}
+
+func (pk PrivateKey) toCurve25519() []byte {
 	h := sha512.New()
 	h.Write(pk.ToEd25519PrivKey().Seed())
 	out := h.Sum(nil)

@@ -1,5 +1,7 @@
 package keypair
 
+import "path/filepath"
+
 type Keypair struct {
 	privKey PrivateKey
 	pubKey  PublicKey
@@ -19,6 +21,31 @@ func (kp Keypair) SignMsg(msg []byte) []byte {
 
 func (kp Keypair) SharedSecret(pubKey PublicKey, decrypt bool) ([]byte, error) {
 	return sharedSecret(pubKey.Bytes(), kp.privKey.toCurve25519(), true)
+}
+
+func (kp Keypair) SaveAsKeystore(password, datadir string, useLightweightKDF bool) (string, error) {
+	scryptN := StandardScryptN
+	scryptP := StandardScryptP
+	if useLightweightKDF {
+		scryptN = LightScryptN
+		scryptP = LightScryptP
+	}
+
+	var ks = new(Keystore)
+
+	cryptoJson, err := EncryptData(kp.PrivateKey().Bytes(), []byte(password), scryptN, scryptP)
+	if err != nil {
+		return "", err
+	}
+
+	ks.PubKey = kp.PublicKey().HexString()
+	ks.filepath = filepath.Join(datadir, ks.PubKey+".wallet")
+	ks.Crypto = cryptoJson
+
+	if err := ks.Persistence(); err != nil {
+		return "", err
+	}
+	return ks.filepath, nil
 }
 
 func New(seed []byte) Keypair {

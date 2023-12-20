@@ -8,11 +8,11 @@ import (
 )
 
 func TestKeystore(t *testing.T) {
-	privKey := NewPrivateKey(nil)
-	t.Log(privKey.GetPubKey().HexString())
+	kp := New(nil)
+	t.Log(kp.PublicKey().HexString())
 	datadir, _ := os.Getwd()
 
-	filepath, _ := NewKeystore(privKey, "123456", datadir, false)
+	filepath, _ := kp.SaveAsKeystore("123456", datadir, false)
 
 	ks, err := LoadKeystore(filepath)
 	if err != nil {

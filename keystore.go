@@ -4,7 +4,6 @@ import (
 	"errors"
 	"io/fs"
 	"os"
-	"path/filepath"
 
 	"github.com/bytedance/sonic"
 )
@@ -61,31 +60,6 @@ func (ks *Keystore) Persistence() error {
 	}
 
 	return nil
-}
-
-func NewKeystore(privKey PrivateKey, password, datadir string, useLightweightKDF bool) (string, error) {
-	scryptN := StandardScryptN
-	scryptP := StandardScryptP
-	if useLightweightKDF {
-		scryptN = LightScryptN
-		scryptP = LightScryptP
-	}
-
-	var ks = new(Keystore)
-
-	cryptoJson, err := EncryptData(privKey[:], []byte(password), scryptN, scryptP)
-	if err != nil {
-		return "", err
-	}
-
-	ks.PubKey = privKey.GetPubKey().HexString()
-	ks.filepath = filepath.Join(datadir, ks.PubKey+".wallet")
-	ks.Crypto = cryptoJson
-
-	if err := ks.Persistence(); err != nil {
-		return "", err
-	}
-	return ks.filepath, nil
 }
 
 func LoadKeystore(filepath string) (*Keystore, error) {

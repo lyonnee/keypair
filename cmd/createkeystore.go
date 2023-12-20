@@ -60,14 +60,14 @@ var (
 )
 
 func createKeystoreAction(ctx *cli.Context) error {
-	privKey := keypair.NewPrivateKey(nil)
-	filepath, err := keypair.NewKeystore(privKey, password, datadir, useLightweightKDF)
+	kp := keypair.New(nil)
+	filepath, err := kp.SaveAsKeystore(password, datadir, useLightweightKDF)
 	if err != nil {
 		return err
 	}
 
 	fmt.Printf("\n======================== Your new keystore was generated========================\n\n")
-	fmt.Printf("Public key string:   %s\n", privKey.GetPubKey().HexString())
+	fmt.Printf("Public key string:   %s\n", kp.PublicKey().HexString())
 	fmt.Printf("Keystore has saved to:   %s\n", filepath)
 	fmt.Printf("- You can share your public address with anyone. Others need it to interact with you.\n")
 	fmt.Printf("- You must BACKUP your key file! Without the key, it's impossible to access account funds!\n")
