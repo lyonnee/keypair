@@ -21,20 +21,11 @@ func (kp Keypair) SharedSecret(pubKey PublicKey, decrypt bool) ([]byte, error) {
 	return sharedSecret(pubKey.Bytes(), kp.privKey.toCurve25519(), true)
 }
 
-func New() Keypair {
-	newPk := NewPrivateKey(nil)
+func New(seed []byte) Keypair {
+	newPk := NewPrivateKey(seed)
 	return Keypair{
 		privKey: newPk,
 		pubKey:  newPk.GetPubKey(),
-	}
-}
-
-func LoadFromSeed(seed []byte) Keypair {
-	pk := NewPrivateKey(seed)
-
-	return Keypair{
-		privKey: pk,
-		pubKey:  pk.GetPubKey(),
 	}
 }
 

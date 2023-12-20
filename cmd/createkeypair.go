@@ -17,7 +17,7 @@ var createKeypairCommand = &cli.Command{
 }
 
 func createKeypairAction(ctx *cli.Context) error {
-	kp := keypair.New()
+	kp := keypair.New(nil)
 
 	fmt.Printf("\n======================== Your new keypair was generated========================\n\n")
 	fmt.Printf("Public key string:   %s\n", kp.PublicKey().HexString())

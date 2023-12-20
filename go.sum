@@ -28,8 +28,6 @@ github.com/ethereum/go-ethereum v1.13.2 h1:g9mCpfPWqCA1OL4e6C98PeVttb0HadfBRuKTG
 github.com/ethereum/go-ethereum v1.13.2/go.mod h1:gkQ5Ygi64ZBh9M/4iXY1R8WqoNCx1Ey0CkYn2BD4/fw=
 github.com/holiman/uint256 v1.2.3 h1:K8UWO1HUJpRMXBxbmaY1Y8IAMZC/RsKB+ArEnnK4l5o=
 github.com/holiman/uint256 v1.2.3/go.mod h1:SC8Ryt4n+UBbPbIBKaG9zbbDlp4jOru9xFZmPzLUTxw=
-github.com/islishude/bip32 v1.0.2 h1:pZ/OnlCePDeMsVZtGEXimCLc8ZVHrIRkZHx7Sp7ZdAc=
-github.com/islishude/bip32 v1.0.2/go.mod h1:QVwq9Zrte7nf6N3kiWXSMj1xJnPfQe/Z26AI5WBh/bo=
 github.com/klauspost/cpuid/v2 v2.0.9 h1:lgaqFMSdTdQYdZ04uHyN2d/eKdOMyi2YLSvlQIBFYa4=
 github.com/klauspost/cpuid/v2 v2.0.9/go.mod h1:FInQzS24/EEf25PyTYn52gqo7WaD8xa0213Md/qVLRg=
 github.com/knz/go-libedit v1.10.1/go.mod h1:MZTVkCWyz0oBc7JOWP3wNAzd002ZbM/5hgShxwh4x8M=

@@ -6,7 +6,6 @@ import (
 	"crypto/sha512"
 	"encoding/hex"
 
-	"github.com/islishude/bip32"
 	"golang.org/x/crypto/curve25519"
 )
 
@@ -22,16 +21,6 @@ func (pk PrivateKey) GetPubKey() PublicKey {
 	copy(pubKey[:], edPubKey.(ed25519.PublicKey))
 
 	return pubKey
-}
-
-func (pk PrivateKey) NewChildKey(index uint32) PrivateKey {
-	rootPrvKey := bip32.NewRootXPrv(pk[:])
-	newXPrv := rootPrvKey.Derive(index)
-
-	var newPrivKey PrivateKey
-	copy(newPrivKey[:], newXPrv.Bytes())
-
-	return newPrivKey
 }
 
 func (pk PrivateKey) ToEd25519PrivKey() ed25519.PrivateKey {

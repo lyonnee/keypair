@@ -3,22 +3,11 @@ package keypair
 import (
 	"crypto/ed25519"
 	"encoding/hex"
-
-	"github.com/islishude/bip32"
 )
 
 type PublicKey [PublicKeyLength]byte
 
 const PublicKeyLength int = ed25519.PublicKeySize
-
-func (pk PublicKey) NewChildKey(index uint32) PublicKey {
-	xPub := bip32.NewXPub(pk.Bytes())
-	newXPub := xPub.Derive(index)
-
-	var newPubK PublicKey
-	copy(newPubK[:], newXPub.Bytes())
-	return newPubK
-}
 
 func (pk PublicKey) HexString() string {
 	return hex.EncodeToString(pk.Bytes())
